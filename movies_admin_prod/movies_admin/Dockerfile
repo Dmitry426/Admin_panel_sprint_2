@@ -24,11 +24,9 @@ RUN mkdir $APP_HOME/staticfiles
 WORKDIR $APP_HOME
 
 #Entrypoint с командами
-COPY ./entrypoint.sh .
-RUN sed -i 's/\r$//g'  $APP_HOME/entrypoint.sh
-RUN chmod +x  $APP_HOME/entrypoint.sh
+# COPY ./entrypoint.sh .
+# RUN sed -i 's/\r$//g'  $APP_HOME/entrypoint.sh
+# RUN chmod +x  $APP_HOME/entrypoint.sh
 
 
 COPY . .
-
-ENTRYPOINT ["sh","/home/movies_admin/entrypoint.sh"]

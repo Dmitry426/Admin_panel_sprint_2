@@ -1,20 +1,20 @@
+from decimal import Decimal
+
 from django.contrib.postgres.aggregates import ArrayAgg
 from django.http import JsonResponse
 from django.views.generic.list import BaseListView
 from django.db.models import Q
+from django.core.serializers.json import DjangoJSONEncoder
 
 from movies.models import FilmWork
-from django.core.serializers.json import DjangoJSONEncoder
-from decimal import Decimal
+
 
 # Для конвертации float в float при сериализации Json
-
-
 class MyDjangoJSONEncoder(DjangoJSONEncoder):
-    def default(self, o):
-        if isinstance(o, Decimal):
-            return float(o)
-        return super().default(o)
+    def default(self, object):
+        if isinstance(object, Decimal):
+            return float(object)
+        return super().default(object)
 
 
 class MoviesApiMixin:
@@ -22,14 +22,14 @@ class MoviesApiMixin:
     http_method_names = ['get']
 
     def get_queryset(self):
-        film_work = FilmWork.objects.values('id', 'title', 'description', 'creation_date', 'rating', 'type')\
+        film_work = FilmWork.objects.values('id', 'title', 'description', 'creation_date', 'rating', 'type') \
             .annotate(genres=ArrayAgg('genre__name', distinct=True),
                       actors=ArrayAgg('person__full_name', filter=Q(
                           personfilmwork__role='actor'), distinct=True),
                       directors=ArrayAgg('person__full_name', filter=Q(
                           personfilmwork__role='director'), distinct=True),
                       writers=ArrayAgg('person__full_name', filter=Q(
-                          personfilmwork__role='writer'), distinct=True),)
+                          personfilmwork__role='writer'), distinct=True), )
         return film_work
 
     def render_to_response(self, context, **response_kwargs):
@@ -49,7 +49,7 @@ class MoviesListApi(MoviesApiMixin, BaseListView):
             context = {
                 'count': paginator.count,
                 'total_pages': paginator.num_pages,
-                'prev':  page.previous_page_number() if page.has_previous() else None,
+                'prev': page.previous_page_number() if page.has_previous() else None,
                 'next': page.next_page_number() if page.has_next() else None,
                 'results': list(page)
             }
