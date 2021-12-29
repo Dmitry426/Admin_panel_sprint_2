@@ -2,7 +2,7 @@ from decimal import Decimal
 
 from django.contrib.postgres.aggregates import ArrayAgg
 from django.http import JsonResponse
-from django.views.generic.list import BaseListView
+from django.views.generic.list import BaseDetailView
 from django.db.models import Q
 from django.core.serializers.json import DjangoJSONEncoder
 
@@ -36,9 +36,9 @@ class MoviesApiMixin:
         return JsonResponse(context, encoder=MyDjangoJSONEncoder)
 
 
-class MoviesListApi(MoviesApiMixin, BaseListView):
+class MoviesListApi(MoviesApiMixin, BaseDetailView):
 
-    def get_context_data(self, *, object_list=None, **kwargs):
+    def get_context_data(self, **kwargs):
         queryset = self.get_queryset().order_by('id')
         panginate_by = 50
         paginator, page, queryset, is_paginated = self.paginate_queryset(
@@ -56,9 +56,9 @@ class MoviesListApi(MoviesApiMixin, BaseListView):
             return context
 
 
-class MoviesDetailApi(MoviesApiMixin, BaseListView):
+class MoviesDetailApi(MoviesApiMixin, BaseDetailView):
 
-    def get_context_data(self, *, object_list=None, **kwargs):
+    def get_context_data(self, **kwargs):
         uuid_pk = self.kwargs['pk']
         context = self.get_queryset().get(id=uuid_pk)
 

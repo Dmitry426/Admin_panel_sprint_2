@@ -7,6 +7,15 @@ __pycache__
 db.sqlite3
 media
 
+# Docker volumes and etc 
+data
+microservice
+staticfiles
+
+movies_admin/entrypoint.sh
+
+
+
 # Backup files # 
 *.bak 
 
@@ -138,8 +147,3 @@ GitHub.sublime-settings
 .historys
 .idea
 
-# Docker volumes and etc 
-data
-microservice
-staticfiles
-entrypoint.sh

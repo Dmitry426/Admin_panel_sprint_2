@@ -41,5 +41,3 @@ class PersonAdmin(admin.ModelAdmin):
     fields = (
         'full_name', 'birth_date',
     )
-
-

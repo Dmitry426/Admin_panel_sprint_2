@@ -1,17 +1,18 @@
 import os
 from pathlib import Path
+
 from dotenv import load_dotenv
+
 load_dotenv('.env')
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = str(os.environ.get('SECRET_KEY'))
 
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['localhost',
                  '127.0.0.1']
-
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -100,7 +101,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'config.wsgi.application'
-
 
 DATABASES = {
     'default': {
