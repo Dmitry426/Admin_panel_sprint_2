@@ -11,9 +11,7 @@ SECRET_KEY = str(os.environ.get('SECRET_KEY'))
 
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost',
-                 '127.0.0.1']
-
+ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS").split(" ")
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -108,7 +106,7 @@ DATABASES = {
         'NAME': os.environ.get('DB_NAME'),
         'USER': os.environ.get('DB_USER'),
         'PASSWORD': os.environ.get('DB_PASSWORD'),
-        'HOST': os.environ.get('DB_HOST', '127.0.0.1'),
+        'HOST': os.environ.get('DB_HOST', "localhost"),
         'PORT': os.environ.get('DB_PORT', 5432),
         'OPTIONS': {
             'options': '-c search_path=django'
@@ -119,7 +117,7 @@ DATABASES = {
         'NAME': os.environ.get('DB_NAME'),
         'USER': os.environ.get('DB_USER'),
         'PASSWORD': os.environ.get('DB_PASSWORD'),
-        'HOST': os.environ.get('DB_HOST'),
+        'HOST': os.environ.get('DB_HOST', "localhost"),
         'PORT': os.environ.get('DB_PORT', 5432),
         'OPTIONS': {
             'options': '-c search_path=content'

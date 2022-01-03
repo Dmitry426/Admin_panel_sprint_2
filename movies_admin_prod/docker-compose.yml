@@ -1,8 +1,6 @@
 services:
   web:
     build: ./movies_admin
-    command: python manage.py runserver
-
     volumes:
       - ./movies_admin/staticfiles:/home/movies_admin/staticfiles
     expose:

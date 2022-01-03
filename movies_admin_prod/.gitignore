@@ -7,12 +7,10 @@ __pycache__
 db.sqlite3
 media
 
-# Docker volumes and etc 
+# Database volume , Static files  
 data
 microservice
-staticfiles
-
-movies_admin/entrypoint.sh
+staticfiles/
 
 
 
