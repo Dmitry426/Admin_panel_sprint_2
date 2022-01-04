@@ -15,7 +15,7 @@ RUN pip install -r requirements.txt
 ENV HOME=/home/movies_admin/
 ENV APP_HOME=/home/movies_admin/
 WORKDIR $APP_HOME
-
+# Заметка ревьюеру:  файл .dockerignore  есть и был изначально но он  стрательоно никак не загружается в ситему яндекс , посмтрите его в гит пожалуйста.
 COPY . .
 
 CMD ["gunicorn"  , "--bind", "0.0.0.0:8000", "config.wsgi:application"]
