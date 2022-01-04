@@ -6,5 +6,5 @@ README.md
 staticfiles
 data
 venv
-.idea/
-env
+.idea
+.env
