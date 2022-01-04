@@ -10,8 +10,11 @@ from django.core.serializers.json import DjangoJSONEncoder
 from movies.models import FilmWork, PersonFilmWorkRoles
 
 
-# Для конвертации float в float при сериализации Json
 class MyDjangoJSONEncoder(DjangoJSONEncoder):
+    """
+    Класс кастомный сериаллизатор json,
+    используется так как стандартный сериализатор мутирует Decimal в str
+    """
     def default(self, object):
         if isinstance(object, Decimal):
             return float(object)
@@ -25,14 +28,17 @@ class MoviesApiMixin:
     def get_queryset(self):
         film_work = FilmWork.objects.values('id', 'title', 'description', 'creation_date', 'rating', 'type') \
             .annotate(genres=ArrayAgg('genre__name', distinct=True),
-                      actors=self._aggregate_person(role=PersonFilmWorkRoles.Actor),
-                      directors=self._aggregate_person(role=PersonFilmWorkRoles.Director),
+                      actors=self._aggregate_person(
+                          role=PersonFilmWorkRoles.Actor),
+                      directors=self._aggregate_person(
+                          role=PersonFilmWorkRoles.Director),
                       writers=self._aggregate_person(role=PersonFilmWorkRoles.Writer), )
         return film_work
 
     @staticmethod
     def _aggregate_person(role):
-        result = ArrayAgg('person__full_name', filter=Q(personfilmwork__role=role), distinct=True)
+        result = ArrayAgg('person__full_name', filter=Q(
+            personfilmwork__role=role), distinct=True)
         return result
 
     def render_to_response(self, context, **response_kwargs):
@@ -60,6 +66,4 @@ class MoviesListApi(MoviesApiMixin, BaseListView):
 
 class MoviesDetailApi(MoviesApiMixin, BaseDetailView):
     def get_context_data(self, **kwargs):
-        uuid_pk = self.kwargs['pk']
-        context = self.get_queryset().get(id=uuid_pk)
-        return context
+            return kwargs['object']
