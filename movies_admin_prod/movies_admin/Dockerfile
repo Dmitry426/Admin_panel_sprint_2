@@ -16,6 +16,8 @@ ENV HOME=/home/movies_admin/
 ENV APP_HOME=/home/movies_admin/
 WORKDIR $APP_HOME
 # Заметка ревьюеру:  файл .dockerignore  есть и был изначально но он  стрательоно никак не загружается в ситему яндекс , посмтрите его в гит пожалуйста.
+#Building web
+#Sending build context to Docker daemon  112.6kB такой размер при сборке
 COPY . .
 
 CMD ["gunicorn"  , "--bind", "0.0.0.0:8000", "config.wsgi:application"]
