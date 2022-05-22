@@ -9,7 +9,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = str(os.environ.get("SECRET_KEY"))
 
-DEBUG = True
+DEBUG = os.environ.get("DEBUG", "True") == 'True'
+
+ALLOWED_HOSTS = ['0.0.0.0', '127.0.0.1']
 
 
 INSTALLED_APPS = [
